@@ -56,20 +56,21 @@
 	</div>
 </body>
 <script>
-	function onLoad() {
-		var json = JSON.parse(this.responseText);
-		["hello", "time", "uptime"].forEach(function (id) {
-			document.getElementById(id).value = json[id];
-		});
+	function populateData(response) {
+		for (var x in response) {
+			$('#' + x).val(response[x]);
+		}
 	}
-	function onError() {
-		document.getElementById("error").style.display = "block";
-	}
-	var ajax = new XMLHttpRequest();
-	ajax.addEventListener("load", onLoad);
-	ajax.addEventListener("error", onError);
-	ajax.open("GET", api_address);
-	ajax.send();
+
+	$(document).ready(function() {
+		$.ajax({type: "GET",
+	        crossDomain : true,
+	        url: api_address,
+	        dataType: "jsonp",
+	        jsonp: "jsonp",
+	        jsonpCallback: "populateData"
+	    }); 
+	});
 </script>
 
 </html>
